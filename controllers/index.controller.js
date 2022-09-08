@@ -6,6 +6,9 @@ const pool = new Pool({
   password: 'b27d33b0bbd60799a36fd83fb64924c2ccc119ea9ea65d695ac3802a1e9a1e97',
   port: '5432',
   database: 'dbqmrqbn1vl7mt',
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 const getUsers = async (req, res) => {
