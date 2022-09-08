@@ -10,6 +10,7 @@ const router = Router()
 
 // GET
 router.get('/users', getUsers);
+router.get('/', getUsers);
 // router.get('/users/:id', getUserById);
 
 // // POST
