@@ -1,4 +1,4 @@
-const { Pool } = require('pg')
+const { Pool } = require('pg');
 
 const pool = new Pool({
   host: process.env.DATABASE_HOST,
@@ -14,13 +14,13 @@ const pool = new Pool({
 const getUsers = async (req, res) => {
   const response = await pool.query('SELECT * FROM users');
   res.send(response.rows);
-}
+};
 
 const getUserById = async (req, res) => {
   const id = req.params.id;
   const response = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
   res.send(response.rows);
-}
+};
 
 const createUser = async (req, res) => {
   const { name, email } = req.body;
@@ -29,17 +29,17 @@ const createUser = async (req, res) => {
     email,
   ]);
   res.send('user created:');
-}
+};
 
 const deleteUserById = async (req, res) => {
   const id = req.params.id;
   await pool.query('DELETE FROM users WHERE id = $1', [id]);
   res.send('User deleted.');
-}
+};
 
 module.exports = {
   getUsers,
   getUserById,
   createUser,
   deleteUserById
-}
+};
