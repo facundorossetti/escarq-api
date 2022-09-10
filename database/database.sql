@@ -1,3 +1,2 @@
-CREATE TABLE products(id SERIAL PRIMARY KEY, type VARCHAR(40), description VARCHAR(100), size VARCHAR(10), color VARCHAR(10), stock int, price DECIMAL(10,2));
+CREATE TABLE products(id INT PRIMARY KEY, type VARCHAR(40), description VARCHAR(100), color VARCHAR(10), stock JSON, price DECIMAL(10,2), imageURL varchar(255));
 
-ALTER TABLE products ADD imageURL varchar(255);

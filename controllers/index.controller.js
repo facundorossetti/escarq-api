@@ -43,19 +43,19 @@ const getProducts = async (req, res) => {
 };
 const createProduct = async (req, res) => {
   const { 
+    id,
     type, 
     description, 
-    size,
     color,
     stock,
     price,
     imageurl
   } = req.body;
-  await pool.query('INSERT INTO products(type, description, size, color, stock, price, imageurl) VALUES($1, $2, $3, $4, $5, $6, $7)', 
+  await pool.query('INSERT INTO products(id, type, description, color, stock, price, imageurl) VALUES($1, $2, $3, $4, $5, $6, $7)', 
   [
+    id,
     type,
-    description, 
-    size,
+    description,
     color,
     stock,
     price,
