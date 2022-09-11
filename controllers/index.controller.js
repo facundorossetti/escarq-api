@@ -1,4 +1,80 @@
 const { Pool } = require('pg');
+const mercadopago = require("mercadopago");
+
+
+
+
+mercadopago.configure({
+  access_token: "TEST-383328060791251-091020-33e8efc4f8bad45fa4083cd98453ff47-1195965134",
+});
+
+const buyItems = async (req, res) => {
+  let preference = {
+    items: [
+      {
+        title: "Remera TEST",
+        unit_price: 1,
+        quantity: 5,
+      },
+    ],
+    "back_urls": {
+      "success": "https://escarq-app.herokuapp.com/",
+      "pending": "https://escarq-app.herokuapp.com/"
+    },
+    "notification_url": "https://frfullstackapp.herokuapp.com/api/notification"
+  };
+  let responseId = null;
+  await mercadopago.preferences.create(preference)
+    .then(function (response) {
+      responseId = response;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  res.send(responseId);
+};
+
+const getNotifications = (req, res) => {
+  console.log(req.body);
+  res.status(200);
+};
+
+// prueba users
+// Vendedor	
+// TESTMJUWA1GH
+// AAMh3IKUJD
+// credencial de prueba
+// TEST-383328060791251-091020-33e8efc4f8bad45fa4083cd98453ff47-1195965134
+// credencial de production
+// APP_USR-383328060791251-091020-484d8001c549792bf6985d3e03e8df5b-1195965134
+
+// Comprador	
+// TETE5006091
+// 2A3tFC0Qr9
+
+
+
+// facundo produccion
+// Public Key
+// APP_USR-0594fb27-6697-45fa-b7ea-c7c8c074a47b
+
+// Access Token
+// APP_USR-4834402556102402-091015-8e2f8c002341163f453b7e9e134dba7b-1021104201
+
+// Client ID
+// 4834402556102402
+
+// Client Secret
+// 61DkoeSgoSqZbIbVQB5in444FJx1BkDH
+
+// facundo prueba
+// Public Key
+// TEST-794e4e34-fb22-4eab-ac9c-69c3283b2afc
+
+// Access Token
+// TEST-4834402556102402-091015-7732095e243a32f63f49bdd465daad9c-1021104201
+
+
 
 const pool = new Pool({
   host: process.env.DATABASE_HOST,
@@ -76,5 +152,7 @@ module.exports = {
   deleteUserById,
   getProducts,
   deleteProductById,
+  buyItems,
+  getNotifications,
   createProduct
 };
