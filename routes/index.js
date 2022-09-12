@@ -8,12 +8,15 @@ const {
   deleteUserById,
   createProduct,
   deleteProductById,
+  getProducts
+} = require('../controllers/index.controller');
+
+const {
   buyItems,
   getNotifications,
   getPayments,
-  getOrders,
-  getProducts
-} = require('../controllers/index.controller');
+  getOrders
+} = require('../controllers/mp.controller');
 
 const router = Router();
 
