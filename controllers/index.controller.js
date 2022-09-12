@@ -75,5 +75,6 @@ module.exports = {
   createUser,
   deleteUserById,
   getProducts,
+  createProduct,
   deleteProductById
 };
