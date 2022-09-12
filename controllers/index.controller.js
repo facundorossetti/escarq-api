@@ -46,7 +46,6 @@ const getNotifications = async (req, res) => {
         }
       })
         .then((r) => {
-          console.log('GENERAL ORDER DATA =>===>==>==>', r.data);
           console.log('ORDER ID =>===>==>==>', r.data.id);
           console.log('ORDER ITEMS =>===>==>==>', r.data.items);
           console.log('ORDER IMPORTE TOTAL =>===>==>==>', r.data.total_amount);
@@ -66,9 +65,11 @@ const getNotifications = async (req, res) => {
       }
     })
       .then((r) => {
-        console.log('GENERAL PAYMENT DATA =>===>==>==>', r.data);
+        console.log('PAYMENT ID =>===>==>==>', r.data.id);
+        console.log('ORDER DATA =>===>==>==>', r.data.order);
         console.log('PAYER DATA =>===>==>==>', r.data.payer);
         console.log('PAYMENT STATUS =>===>==>==>', r.data.status);
+        console.log('PAYMENT STATUS DETAIL =>===>==>==>', r.data.status_detail);
         console.log('PAYMENT TOTAL AMOUNT =>===>==>==>', r.data.transaction_amount);
       })
       .catch(error => console.log(error));
