@@ -20,6 +20,16 @@ mercadopago.configure({
   access_token: access_token,
 });
 
+const getPayments = async (req, res) => {
+  const response = await pool.query('SELECT * FROM payments');
+  res.send(response.rows);
+};
+
+const getOrders = async (req, res) => {
+  const response = await pool.query('SELECT * FROM merchant_orders');
+  res.send(response.rows);
+};
+
 const buyItems = async (req, res) => {
   let preference = {
     items: [
@@ -208,5 +218,7 @@ module.exports = {
   deleteProductById,
   buyItems,
   getNotifications,
+  getPayments,
+  getOrders,
   createProduct
 };

@@ -10,6 +10,8 @@ const {
   deleteProductById,
   buyItems,
   getNotifications,
+  getPayments,
+  getOrders,
   getProducts
 } = require('../controllers/index.controller');
 
@@ -18,6 +20,9 @@ const router = Router();
 // Mercadopago
 router.post('/mercadopago', buyItems);
 router.post('/api/notification', getNotifications);
+
+router.get('/payments', getPayments);
+router.get('/orders', getOrders);
 
 //PRODUCTS
 // GET
