@@ -67,14 +67,14 @@ const getNotifications = async (req, res) => {
         }
       })
         .then((r) => {
-          const testdata = JSON.stringify(r.data.items);
+          const items = JSON.stringify(r.data.items);
           console.log('ORDER ID =>===>==>==>', r.data.id);
           console.log('ORDER ITEMS =>===>==>==>', r.data.items);
           console.log('ORDER IMPORTE TOTAL =>===>==>==>', r.data.total_amount);
 
           pool.query('INSERT INTO merchant_orders (id, items, amount) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
             r.data.id,
-            testdata,
+            items,
             r.data.total_amount
           ]);
         })
@@ -92,6 +92,7 @@ const getNotifications = async (req, res) => {
       }
     })
       .then((r) => {
+        const payer = JSON.stringify(payer);
         console.log('PAYMENT ID =>===>==>==>', r.data.id);
         console.log('ORDER DATA =>===>==>==>', r.data.order);
         console.log('PAYER DATA =>===>==>==>', r.data.payer);
@@ -101,7 +102,7 @@ const getNotifications = async (req, res) => {
         pool.query('INSERT INTO payments (id, orderdata, payer, status, detail, amount) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET orderdata = excluded.orderdata, payer = excluded.payer, status = excluded.status, detail = excluded.detail, amount = excluded.amount', [
           r.data.id,
           r.data.order,
-          r.data.payer,
+          payer,
           r.data.status,
           r.data.status_detail,
           r.data.transaction_amount
