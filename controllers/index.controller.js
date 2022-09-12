@@ -2,6 +2,17 @@ const { Pool } = require('pg');
 const axios = require('axios');
 const mercadopago = require("mercadopago");
 
+const pool = new Pool({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASS,
+  port: '5432',
+  database: process.env.DATABASE_NAME,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
+
 
 const access_token = "TEST-383328060791251-091020-33e8efc4f8bad45fa4083cd98453ff47-1195965134";
 
@@ -49,7 +60,15 @@ const getNotifications = async (req, res) => {
           console.log('ORDER ID =>===>==>==>', r.data.id);
           console.log('ORDER ITEMS =>===>==>==>', r.data.items);
           console.log('ORDER IMPORTE TOTAL =>===>==>==>', r.data.total_amount);
-          console.log('ORDER STATUS =>===>==>==>', r.data.order_status);
+
+          pool.query('INSERT INTO merchant_orders (id, items, amount) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
+            r.data.id,
+            r.data.order,
+            r.data.payer,
+            r.data.status,
+            r.data.status_detail,
+            r.data.transaction_amount
+          ]);
         })
         .catch(error => console.log(error));
     }
@@ -71,6 +90,14 @@ const getNotifications = async (req, res) => {
         console.log('PAYMENT STATUS =>===>==>==>', r.data.status);
         console.log('PAYMENT STATUS DETAIL =>===>==>==>', r.data.status_detail);
         console.log('PAYMENT TOTAL AMOUNT =>===>==>==>', r.data.transaction_amount);
+        pool.query('INSERT INTO payments (id, orderdata, payer, status, detail, amount) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET orderdata = excluded.orderdata, payer = excluded.payer, status = excluded.status, detail = excluded.detail, amount = excluded.amount', [
+          r.data.id,
+          r.data.order,
+          r.data.payer,
+          r.data.status,
+          r.data.status_detail,
+          r.data.transaction_amount
+        ]);
       })
       .catch(error => console.log(error));
     }
@@ -116,18 +143,6 @@ const getNotifications = async (req, res) => {
 // Access Token
 // TEST-4834402556102402-091015-7732095e243a32f63f49bdd465daad9c-1021104201
 
-
-
-const pool = new Pool({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASS,
-  port: '5432',
-  database: process.env.DATABASE_NAME,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
 
 // USERS
 const getUsers = async (req, res) => {
