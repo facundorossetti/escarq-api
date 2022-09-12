@@ -55,7 +55,7 @@ const getNotifications = async (req, res) => {
   //   }
   // }
   console.log('QUERY DATA PAGO =>===>==>==>', req.query.data);
-  console.log('ID PAGO =>===>==>==>', req.query.data.id);
+  // console.log('ID PAGO =>===>==>==>', req.query.data.id);
 
 //   // OBTENER DATOS DE PAGOS
 //   if (req.query.type && req.query.type === 'payment') {
