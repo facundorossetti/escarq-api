@@ -67,7 +67,7 @@ const getNotifications = async (req, res) => {
         }
       })
         .then((r) => {
-          const testdata = JSON.parse(r.data.items);
+          const testdata = JSON.stringify(r.data.items);
           console.log('ORDER ID =>===>==>==>', r.data.id);
           console.log('ORDER ITEMS =>===>==>==>', r.data.items);
           console.log('ORDER IMPORTE TOTAL =>===>==>==>', r.data.total_amount);
