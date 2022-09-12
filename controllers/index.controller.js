@@ -36,18 +36,27 @@ const buyItems = async (req, res) => {
 };
 
 const getNotifications = async (req, res) => {
-  const id = req.body.data.id;
-  console.log('ORDER ID =>===>==>==>', id);
-  await axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
+  const paymentId = req.body.data.id;
+  console.log('PAYMENT ID =>===>==>==>', paymentId);
+  const orderId = req.query.id;
+  await axios.get(`https://api.mercadopago.com/merchant_orders/${orderId}`, {
     headers: {
       'Authorization': `Bearer ${access_token}` 
     }
   })
     .then((r) => {
-      console.log('PAYER DATA =>===>==>==>', r.data.payer);
-      console.log('PAYMENT STATUS =>===>==>==>', r.data.status);
-      console.log('PAYMENT TOTAL AMOUNT =>===>==>==>', r.data.transaction_amount)
+      console.log('MERCHANT ORDER DATA =>===>==>==>', r.data);
     });
+  // await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+  //   headers: {
+  //     'Authorization': `Bearer ${access_token}` 
+  //   }
+  // })
+  //   .then((r) => {
+  //     console.log('PAYER DATA =>===>==>==>', r.data.payer);
+  //     console.log('PAYMENT STATUS =>===>==>==>', r.data.status);
+  //     console.log('PAYMENT TOTAL AMOUNT =>===>==>==>', r.data.transaction_amount)
+  //   });
   
   // use id to make request to https://api.mercadopago.com/v1/payments/${id} and check payment status
   // await pool.query('INSERT INTO mporders(id) VALUES($1)', [id]);
