@@ -35,8 +35,8 @@ const buyItems = async (req, res) => {
 };
 
 const getNotifications = (req, res) => {
-  console.log(req.body);
-  res.status(200);
+  console.log("DATOS DE PAGO ===============================", req.query);
+  res.status(201);
 };
 
 // prueba users
