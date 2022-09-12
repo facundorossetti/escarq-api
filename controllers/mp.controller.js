@@ -107,6 +107,5 @@ module.exports = {
   buyItems,
   getNotifications,
   getPayments,
-  getOrders,
-  createProduct
+  getOrders
 };
