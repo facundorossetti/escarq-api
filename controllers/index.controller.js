@@ -67,13 +67,23 @@ const getNotifications = async (req, res) => {
         }
       })
         .then((r) => {
+          const testdata = {
+            id: '13335',
+            category_id: 'wqw',
+            currency_id: 'ARS',
+            description: 'asd',
+            picture_url: null,
+            title: 'TEST ROPA TEST',
+            quantity: 500,
+            unit_price: 10
+          }
           console.log('ORDER ID =>===>==>==>', r.data.id);
           console.log('ORDER ITEMS =>===>==>==>', r.data.items);
           console.log('ORDER IMPORTE TOTAL =>===>==>==>', r.data.total_amount);
 
           pool.query('INSERT INTO merchant_orders (id, items, amount) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
             r.data.id,
-            r.data.items,
+            testdata,
             r.data.total_amount
           ]);
         })
