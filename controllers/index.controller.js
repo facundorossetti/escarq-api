@@ -63,11 +63,8 @@ const getNotifications = async (req, res) => {
 
           pool.query('INSERT INTO merchant_orders (id, items, amount) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
             r.data.id,
-            r.data.order,
-            r.data.payer,
-            r.data.status,
-            r.data.status_detail,
-            r.data.transaction_amount
+            r.data.items,
+            r.data.total_amount
           ]);
         })
         .catch(error => console.log(error));
