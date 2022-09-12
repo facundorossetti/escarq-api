@@ -36,21 +36,23 @@ const buyItems = async (req, res) => {
 };
 
 const getNotifications = async (req, res) => {
-  const orderId = req.query.id;
-  if (orderId) {
-    await axios.get(`https://api.mercadopago.com/merchant_orders/${orderId}`, {
-      headers: {
-        'Authorization': `Bearer ${access_token}` 
-      }
-    })
-      .then((r) => {
-        console.log('ORDER ID =>===>==>==>', r.data.id);
-        console.log('ORDER ITEMS =>===>==>==>', r.data.items);
-        console.log('ORDER IMPORTE TOTAL =>===>==>==>', r.data.total_amount);
-        console.log('ORDER STATUS =>===>==>==>', r.data.order_status);
-      })
-      .catch(error => console.log(error));
-  }
+  // const orderId = req.query.id;
+  // if (orderId) {
+  //   await axios.get(`https://api.mercadopago.com/merchant_orders/${orderId}`, {
+  //     headers: {
+  //       'Authorization': `Bearer ${access_token}` 
+  //     }
+  //   })
+  //     .then((r) => {
+  //       console.log('ORDER ID =>===>==>==>', r.data.id);
+  //       console.log('ORDER ITEMS =>===>==>==>', r.data.items);
+  //       console.log('ORDER IMPORTE TOTAL =>===>==>==>', r.data.total_amount);
+  //       console.log('ORDER STATUS =>===>==>==>', r.data.order_status);
+  //     })
+  //     .catch(error => console.log(error));
+  // }
+  console.log('BODY DEL PAGO =>===>==>==>', req.body);
+  console.log('QUERYS =>===>==>==>', req.query);
 
   const paymentId = req.body.data.id;
   if(paymentId) {
