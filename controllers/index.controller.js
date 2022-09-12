@@ -38,13 +38,12 @@ const buyItems = async (req, res) => {
 const getNotifications = async (req, res) => {
   const id = req.query.id;
   console.log('ORDER ID =>===>==>==>', id);
-  await axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
-    headers: {
-      'Authorization': `Bearer ${access_token}` 
-    }
-  })
-    .then((r) => console.log('ORDER STATUS DATA =>===>==>==>', r.json()))
-  ;
+  // await axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
+  //   headers: {
+  //     'Authorization': `Bearer ${access_token}` 
+  //   }
+  // })
+  //   .then((r) => console.log('ORDER STATUS DATA =>===>==>==>', r.json()));
   // const {id, topic} = req.query;
   // use id to make request to https://api.mercadopago.com/v1/payments/${id} and check payment status
   // await pool.query('INSERT INTO mporders(id) VALUES($1)', [id]);
