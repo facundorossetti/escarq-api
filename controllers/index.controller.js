@@ -36,6 +36,7 @@ const buyItems = async (req, res) => {
 };
 
 const getNotifications = async (req, res) => {
+  console.log('ORDER REQUEST =>===>==>==>', req);
   const id = req.query.id;
   console.log('ORDER ID =>===>==>==>', id);
   // await axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
