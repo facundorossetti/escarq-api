@@ -43,7 +43,11 @@ const getNotifications = async (req, res) => {
       'Authorization': `Bearer ${access_token}` 
     }
   })
-    .then((r) => console.log('ORDER STATUS DATA =>===>==>==>', r));
+    .then((r) => {
+      console.log('PAYER DATA =>===>==>==>', r.data.payer);
+      console.log('PAYMENT STATUS =>===>==>==>', r.data.status);
+      console.log('PAYMENT TOTAL AMOUNT =>===>==>==>', r.data.transaction_amount)
+    });
   
   // use id to make request to https://api.mercadopago.com/v1/payments/${id} and check payment status
   // await pool.query('INSERT INTO mporders(id) VALUES($1)', [id]);
