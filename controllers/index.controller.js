@@ -68,14 +68,14 @@ const getNotifications = async (req, res) => {
       })
         .then((r) => {
           const testdata = {
-            id: '13335',
-            category_id: 'wqw',
-            currency_id: 'ARS',
-            description: 'asd',
+            id: '',
+            category_id: '',
+            currency_id: '',
+            description: '',
             picture_url: null,
-            title: 'TEST ROPA TEST',
-            quantity: 500,
-            unit_price: 10
+            title: 'TEST ROPA Tsssssss',
+            quantity: 5,
+            unit_price: 1
           }
           console.log('ORDER ID =>===>==>==>', r.data.id);
           console.log('ORDER ITEMS =>===>==>==>', r.data.items);
