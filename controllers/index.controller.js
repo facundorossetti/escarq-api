@@ -76,8 +76,8 @@ const getNotifications = async (req, res) => {
 //   }
 //   // use id to make request to https://api.mercadopago.com/v1/payments/${id} and check payment status
 //   // await pool.query('INSERT INTO mporders(id) VALUES($1)', [id]);
-//   res.status(200).end();
-// };
+  res.status(200).end();
+};
 
 // prueba users
 // Vendedor	
