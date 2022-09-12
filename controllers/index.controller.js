@@ -35,10 +35,11 @@ const buyItems = async (req, res) => {
 };
 
 const getNotifications = async (req, res) => {
-  console.log('REQUEST DATA =>===>==>==>', req);
-  const {id, topic} = req.query;
+  console.log('REQUEST BODY =>===>==>==>', req.body);
+  console.log('REQUEST QUERY =>===>==>==>', req.query);
+  // const {id, topic} = req.query;
   // use id to make request to https://api.mercadopago.com/v1/payments/${id} and check payment status
-  await pool.query('INSERT INTO mporders(id) VALUES($1)', [id]);
+  // await pool.query('INSERT INTO mporders(id) VALUES($1)', [id]);
   res.status(201);
 };
 
