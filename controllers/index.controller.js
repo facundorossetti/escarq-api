@@ -1,11 +1,12 @@
 const { Pool } = require('pg');
+const axios = require('axios');
 const mercadopago = require("mercadopago");
 
 
-
+const access_token = "TEST-383328060791251-091020-33e8efc4f8bad45fa4083cd98453ff47-1195965134";
 
 mercadopago.configure({
-  access_token: "TEST-383328060791251-091020-33e8efc4f8bad45fa4083cd98453ff47-1195965134",
+  access_token: access_token,
 });
 
 const buyItems = async (req, res) => {
@@ -35,8 +36,15 @@ const buyItems = async (req, res) => {
 };
 
 const getNotifications = async (req, res) => {
-  console.log('REQUEST BODY =>===>==>==>', req.body);
-  console.log('REQUEST QUERY =>===>==>==>', req.query);
+  const id = req.query.id;
+  console.log('ORDER ID =>===>==>==>', id);
+  axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
+    headers: {
+      'Authorization': `Bearer ${access_token}` 
+    }
+  })
+    .then((r) => console.log('ORDER STATUS DATA =>===>==>==>', r.json()))
+  ;
   // const {id, topic} = req.query;
   // use id to make request to https://api.mercadopago.com/v1/payments/${id} and check payment status
   // await pool.query('INSERT INTO mporders(id) VALUES($1)', [id]);
