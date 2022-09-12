@@ -39,14 +39,18 @@ const getNotifications = async (req, res) => {
   const paymentId = req.body.data.id;
   console.log('PAYMENT ID =>===>==>==>', paymentId);
   const orderId = req.query.id;
-  await axios.get(`https://api.mercadopago.com/merchant_orders/${orderId}`, {
-    headers: {
-      'Authorization': `Bearer ${access_token}` 
-    }
-  })
-    .then((r) => {
-      console.log('MERCHANT ORDER DATA =>===>==>==>', r.data);
-    });
+  if (orderId) {
+    await axios.get(`https://api.mercadopago.com/merchant_orders/${orderId}`, {
+      headers: {
+        'Authorization': `Bearer ${access_token}` 
+      }
+    })
+      .then((r) => {
+        console.log('MERCHANT ORDER DATA =>===>==>==>', r.data);
+      })
+      .catch(error => console.log(error));
+  }
+
   // await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
   //   headers: {
   //     'Authorization': `Bearer ${access_token}` 
