@@ -67,16 +67,7 @@ const getNotifications = async (req, res) => {
         }
       })
         .then((r) => {
-          const testdata = {
-            id: '',
-            category_id: '',
-            currency_id: '',
-            description: '',
-            picture_url: null,
-            title: 'TEST ROPA Tsssssss',
-            quantity: 5,
-            unit_price: 1
-          }
+          const testdata = JSON.parse(r.data.items);
           console.log('ORDER ID =>===>==>==>', r.data.id);
           console.log('ORDER ITEMS =>===>==>==>', r.data.items);
           console.log('ORDER IMPORTE TOTAL =>===>==>==>', r.data.total_amount);
