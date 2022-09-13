@@ -15,6 +15,7 @@ const {
   buyItems,
   getNotifications,
   getPayments,
+  changeOrderStatus,
   getOrders
 } = require('../controllers/mp.controller');
 
@@ -26,6 +27,7 @@ router.post('/api/notification', getNotifications);
 
 router.get('/payments', getPayments);
 router.get('/orders', getOrders);
+router.patch('/order/:id/:status', changeOrderStatus);
 
 //PRODUCTS
 // GET

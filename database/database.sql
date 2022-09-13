@@ -23,6 +23,7 @@ ON CONFLICT (id) DO UPDATE
       detail = excluded.detail,
       amount = excluded.amount;
 
+ALTER TABLE merchant_orders ALTER COLUMN status SET DEFAULT 'pendiente';
 
 ALTER TABLE merchant_orders ALTER COLUMN id type bigint using id::bigint
 

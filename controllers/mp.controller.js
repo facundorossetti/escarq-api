@@ -30,29 +30,28 @@ const getOrders = async (req, res) => {
 };
 
 const buyItems = async (req, res) => {
-  let preference = {
-    items: [
-      {
-        title: "Remera TEST",
-        unit_price: 1,
-        quantity: 5,
+  console.log(req.body);
+  if (req.body.length) {
+    const preference = {
+      items: req.body,
+      "back_urls": {
+        "success": "https://escarq-app.herokuapp.com/",
+        "pending": "https://escarq-app.herokuapp.com/"
       },
-    ],
-    "back_urls": {
-      "success": "https://escarq-app.herokuapp.com/",
-      "pending": "https://escarq-app.herokuapp.com/"
-    },
-    "notification_url": "https://frfullstackapp.herokuapp.com/api/notification"
-  };
-  let responseId = null;
-  await mercadopago.preferences.create(preference)
-    .then(function (response) {
-      responseId = response;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  res.send(responseId);
+      "notification_url": "https://frfullstackapp.herokuapp.com/api/notification"
+    };
+    let responseId = null;
+    await mercadopago.preferences.create(preference)
+      .then(function (response) {
+        responseId = response;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    res.send(responseId);
+  } else {
+    res.send('No preference found');
+  }
 };
 
 const getNotifications = async (req, res) => {
@@ -103,9 +102,17 @@ const getNotifications = async (req, res) => {
   res.status(200).end();
 };
 
+const changeOrderStatus = async (req, res) => {
+  const { id, status }= req.params;
+  console.log(id, status);
+  await pool.query('UPDATE merchant_orders SET status = $2 WHERE id = $1', [id, status]);
+  res.send('status updated successfully');
+};
+
 module.exports = {
   buyItems,
   getNotifications,
   getPayments,
+  changeOrderStatus,
   getOrders
 };
