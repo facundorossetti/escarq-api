@@ -71,12 +71,14 @@ const getNotifications = async (req, res) => {
       })
         .then((r) => {
           const items = JSON.stringify(r.data.items);
-          pool.query('INSERT INTO merchant_orders (id, items, amount, date_created) VALUES ($1, $2, $3, $4) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
+          pool.query('INSERT INTO merchant_orders (id, items, amount, date_created, payments) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
             r.data.id,
             items,
             r.data.total_amount,
+            r.data.payments,
             r.data.date_created
           ]);
+          res.status(201);
         })
         .catch(error => console.err(error));
     }
@@ -102,11 +104,11 @@ const getNotifications = async (req, res) => {
           r.data.transaction_amount,
           r.data.date_created
         ]);
+        res.status(201);
       })
       .catch(error => console.err(error));
     }
   }
-  res.status(201).end();
 };
 
 const changeOrderStatus = async (req, res) => {

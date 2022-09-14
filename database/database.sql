@@ -25,7 +25,7 @@ ON CONFLICT (id) DO UPDATE
 
 ALTER TABLE merchant_orders ALTER COLUMN status SET DEFAULT 'pendiente';
 
-ALTER TABLE merchant_orders ALTER COLUMN id type bigint using id::bigint
+ALTER TABLE merchant_orders ALTER COLUMN id type bigint using id::bigint;
 
 -- add columns
 ALTER TABLE merchant_orders ADD COLUMN date_created DATE;
