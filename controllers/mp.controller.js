@@ -30,7 +30,6 @@ const getOrders = async (req, res) => {
 };
 
 const buyItems = async (req, res) => {
-  console.log(req.body);
   if (req.body.length) {
     const preference = {
       items: req.body,
@@ -106,7 +105,6 @@ const getNotifications = async (req, res) => {
 
 const changeOrderStatus = async (req, res) => {
   const { id, status }= req.params;
-  console.log(id, status);
   await pool.query('UPDATE merchant_orders SET status = $2 WHERE id = $1', [id, status]);
   res.send('status updated successfully');
 };
