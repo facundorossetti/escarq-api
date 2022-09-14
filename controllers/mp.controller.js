@@ -76,8 +76,8 @@ const getNotifications = async (req, res) => {
             r.data.id,
             items,
             r.data.total_amount,
-            r.data.payments,
-            r.data.date_created
+            r.data.date_created,
+            r.data.payments
           ]);
           res.status(201);
         })
