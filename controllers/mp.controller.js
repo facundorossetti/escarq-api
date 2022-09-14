@@ -61,7 +61,6 @@ const buyItems = async (req, res) => {
 
 const getNotifications = async (req, res) => {
   console.log(req.query);
-  console.log(req.body.data);
   // OBTENER DATOS DE ORDENES DE COMPRA
   if (req.query.topic && req.query.topic === 'merchant_order') {
     const orderId = req.query.id;
@@ -87,8 +86,8 @@ const getNotifications = async (req, res) => {
   }
 
   // OBTENER DATOS DE PAGOS
-  if (req.body.data) {
-    const paymentId = req.body.data.id;
+  if (req.query.topic && req.query.topic === 'payment') {
+    const paymentId = req.query.id;
     if(paymentId) {
       await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
       headers: {
