@@ -66,10 +66,11 @@ const getNotifications = async (req, res) => {
       })
         .then((r) => {
           const items = JSON.stringify(r.data.items);
-          pool.query('INSERT INTO merchant_orders (id, items, amount) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
+          pool.query('INSERT INTO merchant_orders (id, items, amount, date_created) VALUES ($1, $2, $3, $4) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
             r.data.id,
             items,
-            r.data.total_amount
+            r.data.total_amount,
+            r.data.date_created
           ]);
         })
         .catch(error => console.err(error));
@@ -87,13 +88,14 @@ const getNotifications = async (req, res) => {
     })
       .then((r) => {
         const payer = JSON.stringify(r.data.payer);
-        pool.query('INSERT INTO payments (id, orderdata, payer, status, detail, amount) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO UPDATE SET orderdata = excluded.orderdata, payer = excluded.payer, status = excluded.status, detail = excluded.detail, amount = excluded.amount', [
+        pool.query('INSERT INTO payments (id, orderdata, payer, status, detail, amount, date_created) VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT (id) DO UPDATE SET orderdata = excluded.orderdata, payer = excluded.payer, status = excluded.status, detail = excluded.detail, amount = excluded.amount, date_created = excluded.date_created', [
           r.data.id,
           r.data.order,
           payer,
           r.data.status,
           r.data.status_detail,
-          r.data.transaction_amount
+          r.data.transaction_amount,
+          r.data.date_created
         ]);
       })
       .catch(error => console.err(error));

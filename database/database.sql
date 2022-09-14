@@ -27,7 +27,11 @@ ALTER TABLE merchant_orders ALTER COLUMN status SET DEFAULT 'pendiente';
 
 ALTER TABLE merchant_orders ALTER COLUMN id type bigint using id::bigint
 
-ALTER TABLE some_table ADD COLUMN new_id bigint;
+-- add columns
+ALTER TABLE merchant_orders ADD COLUMN date_created DATE;
+ALTER TABLE payments ADD COLUMN date_approved DATE;
+ALTER TABLE payments ADD COLUMN date_created DATE;
+
 
 DROP TABLE merchant_orders;
 
