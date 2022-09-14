@@ -13,13 +13,7 @@ const pool = new Pool({
   },
 });
 
-const access_token = "APP_USR-5074979001009968-091414-978748c59e554cb014674de7c6181d54-146567175";
-
-// Escar MP para produccion
-// APP_USR-5074979001009968-091414-978748c59e554cb014674de7c6181d54-146567175
-
-// usuario vendedeor de prueba
-// TEST-383328060791251-091020-33e8efc4f8bad45fa4083cd98453ff47-1195965134
+const access_token = process.env.ACCESS_TOKEN;
 
 mercadopago.configure({
   access_token: access_token,
