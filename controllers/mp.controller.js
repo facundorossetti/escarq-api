@@ -60,6 +60,8 @@ const buyItems = async (req, res) => {
 };
 
 const getNotifications = async (req, res) => {
+  console.log(req.query);
+  console.log(req.body.data);
   // OBTENER DATOS DE ORDENES DE COMPRA
   if (req.query.topic && req.query.topic === 'merchant_order') {
     const orderId = req.query.id;
@@ -109,6 +111,7 @@ const getNotifications = async (req, res) => {
       .catch(error => console.err(error));
     }
   }
+  res.status(400);
 };
 
 const changeOrderStatus = async (req, res) => {
