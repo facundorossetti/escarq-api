@@ -8,6 +8,7 @@ const {
   deleteUserById,
   createProduct,
   deleteProductById,
+  updateProduct,
   getProducts
 } = require('../controllers/index.controller');
 
@@ -34,6 +35,7 @@ router.patch('/order/:id/:status', changeOrderStatus);
 router.get('/products', getProducts);
 // POST
 router.post('/products', createProduct);
+router.patch('/updateProduct', updateProduct);
 // DELETE
 router.delete('/products/:id', deleteProductById);
 
