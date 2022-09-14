@@ -106,7 +106,7 @@ const getNotifications = async (req, res) => {
       .catch(error => console.err(error));
     }
   }
-  res.status(200).end();
+  res.status(201).end();
 };
 
 const changeOrderStatus = async (req, res) => {
