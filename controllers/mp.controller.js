@@ -54,7 +54,6 @@ const buyItems = async (req, res) => {
 };
 
 const getNotifications = async (req, res) => {
-  console.log(req.query);
   // OBTENER DATOS DE ORDENES DE COMPRA
   if (req.query.topic && req.query.topic === 'merchant_order') {
     const orderId = req.query.id;
@@ -64,18 +63,18 @@ const getNotifications = async (req, res) => {
           'Authorization': `Bearer ${access_token}` 
         }
       })
-        .then((r) => {
-          const items = JSON.stringify(r.data.items);
-          pool.query('INSERT INTO merchant_orders (id, items, amount, date_created, payments) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
-            r.data.id,
-            items,
-            r.data.total_amount,
-            r.data.date_created,
-            r.data.payments
-          ]);
-          res.status(201);
-        })
-        .catch(error => console.err(error));
+      .then((r) => {
+        const items = JSON.stringify(r.data.items);
+        pool.query('INSERT INTO merchant_orders (id, items, amount, date_created, payments) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (id) DO UPDATE SET items = excluded.items, amount = excluded.amount', [
+          r.data.id,
+          items,
+          r.data.total_amount,
+          r.data.date_created,
+          r.data.payments
+        ]);
+        res.status(201);
+      })
+      .catch(error => console.err(error));
     }
   }
 
@@ -84,10 +83,10 @@ const getNotifications = async (req, res) => {
     const paymentId = req.query.id;
     if(paymentId) {
       await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-      headers: {
-        'Authorization': `Bearer ${access_token}` 
-      }
-    })
+        headers: {
+          'Authorization': `Bearer ${access_token}` 
+        }
+      })
       .then((r) => {
         const payer = JSON.stringify(r.data.payer);
         pool.query('INSERT INTO payments (id, orderdata, payer, status, detail, amount, date_created) VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT (id) DO UPDATE SET orderdata = excluded.orderdata, payer = excluded.payer, status = excluded.status, detail = excluded.detail, amount = excluded.amount, date_created = excluded.date_created', [
@@ -101,10 +100,11 @@ const getNotifications = async (req, res) => {
         ]);
         res.status(201);
       })
-      .catch(error => console.err(error));
+      .catch(error => 
+        console.err(error)
+      );
     }
   }
-  res.status(400);
 };
 
 const changeOrderStatus = async (req, res) => {
