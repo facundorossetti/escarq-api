@@ -30,13 +30,15 @@ const getOrders = async (req, res) => {
 };
 
 const buyItems = async (req, res) => {
-  if (req.body.length) {
+  if (req.body) {
     const preference = {
-      items: req.body,
+      items: req.body.items,
+      payer: req.body.payerData,
       "back_urls": {
-        "success": "https://escarq-app.herokuapp.com/",
-        "pending": "https://escarq-app.herokuapp.com/"
+        "success": "http://www.nostylist.com.ar/",
+        "pending": "http://www.nostylist.com.ar/"
       },
+      "auto_return": "approved",
       "notification_url": "https://frfullstackapp.herokuapp.com/api/notification"
     };
     let responseId = null;
