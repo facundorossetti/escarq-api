@@ -20,38 +20,47 @@ mercadopago.configure({
 });
 
 const getPayments = async (req, res) => {
-  const response = await pool.query('SELECT * FROM payments');
-  res.send(response.rows);
+  try {
+    await pool.query('SELECT * FROM payments')
+      .then((r) => res.send(r.rows));
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
 };
 
 const getOrders = async (req, res) => {
-  const response = await pool.query('SELECT * FROM merchant_orders');
-  res.send(response.rows);
+  try {
+    await pool.query('SELECT * FROM merchant_orders')
+      .then((r) => res.send(r.rows));
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
 };
 
 const buyItems = async (req, res) => {
-  if (req.body) {
-    const preference = {
-      items: req.body.items,
-      payer: req.body.payerData,
-      "back_urls": {
-        "success": "http://www.nostylist.com.ar/",
-        "pending": "http://www.nostylist.com.ar/"
-      },
-      "auto_return": "approved",
-      "notification_url": "https://frfullstackapp.herokuapp.com/api/notification"
-    };
-    let responseId = null;
-    await mercadopago.preferences.create(preference)
-      .then(function (response) {
-        responseId = response;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    res.send(responseId);
-  } else {
-    res.send('No preference found');
+  try {
+    if (req.body) {
+      const preference = {
+        items: req.body.items,
+        payer: req.body.payerData,
+        "back_urls": {
+          "success": "http://www.nostylist.com.ar/",
+          "pending": "http://www.nostylist.com.ar/"
+        },
+        "auto_return": "approved",
+        "notification_url": "https://frfullstackapp.herokuapp.com/api/notification"
+      };
+      await mercadopago.preferences.create(preference)
+        .then((response) => res.send(response))
+        .catch((error) => console.log(error));
+    } else {
+      res.send('No preference found');
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
   }
 };
 
@@ -110,9 +119,14 @@ const getNotifications = async (req, res) => {
 };
 
 const changeOrderStatus = async (req, res) => {
-  const { id, status }= req.params;
-  await pool.query('UPDATE merchant_orders SET status = $2 WHERE id = $1', [id, status]);
-  res.send('status updated successfully');
+  try {
+    const { id, status } = req.params;
+    await pool.query('UPDATE merchant_orders SET status = $2 WHERE id = $1', [id, status])
+      .then(() => res.send('status updated successfully'));
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
 };
 
 module.exports = {

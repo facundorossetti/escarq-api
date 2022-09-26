@@ -13,86 +13,106 @@ const pool = new Pool({
 
 // USERS
 const getUsers = async (req, res) => {
-  const response = await pool.query('SELECT * FROM users');
-  res.send(response.rows);
+  try {
+    await pool.query('SELECT * FROM users')
+      .then((r) => res.send(r.rows));
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
 };
 const getUserById = async (req, res) => {
-  const id = req.params.id;
-  const response = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
-  res.send(response.rows);
+  try {
+    const id = req.params.id;
+    await pool.query('SELECT * FROM users WHERE id = $1', [id])
+      .then((r) => res.send(r.rows));
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 };
 const createUser = async (req, res) => {
-  const { name, email, password } = req.body;
-  await pool.query('INSERT INTO users(name, email, password) VALUES($1, $2, $3)', [
-    name,
-    email,
-    password
-  ]);
-  res.send('user created');
+  try {
+    const { name, email, password } = req.body;
+    await pool.query('INSERT INTO users(name, email, password) VALUES($1, $2, $3)', [
+      name,
+      email,
+      password
+    ]).then(res.send('user created'));
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 };
 const deleteUserById = async (req, res) => {
-  const id = req.params.id;
-  await pool.query('DELETE FROM users WHERE id = $1', [id]);
-  res.send('User deleted.');
+  try {
+    const id = req.params.id;
+    await pool.query('DELETE FROM users WHERE id = $1', [id])
+      .then(res.send('User deleted.'));
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 };
 
 //PRODUCTS
 const getProducts = async (req, res) => {
-  const response = await pool.query('SELECT * FROM products');
-  res.send(response.rows);
+  try {
+    await pool.query('SELECT * FROM products')
+      .then((r) => res.send(r.rows));
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 };
 const createProduct = async (req, res) => {
-  const { 
-    id,
-    type, 
-    description, 
-    color,
-    stock,
-    price,
-    imageurl
-  } = req.body;
-  await pool.query('INSERT INTO products(id, type, description, color, stock, price, imageurl) VALUES($1, $2, $3, $4, $5, $6, $7)', 
-  [
-    id,
-    type,
-    description,
-    color,
-    stock,
-    price,
-    imageurl
-  ]);
-  res.send('Product Added Successfully');
-};
-
-
-
-
-const updateProduct = async (req, res) => {
-  const {id, sizes} = req.body;
-  function sumObjectsByKey(...objs) {
-    return objs.reduce((a, b) => {
-      for (let k in b) {
-        if (b.hasOwnProperty(k))
-          a[k] = (a[k] || 0) + b[k];
-      }
-      return a;
-    }, {});
+  try {
+    const { 
+      id,
+      description, 
+      stock,
+      price,
+      imageurl
+    } = req.body;
+    await pool.query('INSERT INTO products(id, description, stock, price, imageurl) VALUES($1, $2, $3, $4, $5)', 
+    [
+      id,
+      description,
+      stock,
+      price,
+      imageurl
+    ])
+      .then(res.send('Product Added Successfully'));
+  } catch (error) {
+    res.status(400).send(error.message);
   }
-  const product = await pool.query('SELECT * FROM products WHERE id = $1', [id]);
-  const newObject = {};
-  newObject.size = sumObjectsByKey(product.rows[0].stock.size, sizes);
-  await pool.query('UPDATE products SET stock = $2 WHERE id = $1', [id, newObject]);
-  res.send('Product updated');
 };
 
 
+const updateProductStock = async (req, res) => {
+  try {
+    const { id, stock } = req.body;
+    await pool.query('UPDATE products SET stock = $2 WHERE id = $1', [id, stock])
+      .then(res.send('Product updated'));    
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 
-
+const updateProductPrice = async (req, res) => {
+  try {
+    const { id, price } = req.body;
+    await pool.query('UPDATE products SET price = $2 WHERE id = $1', [id, price])
+      .then(res.send('Product updated'));
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 
 const deleteProductById = async (req, res) => {
-  const id = req.params.id;
-  await pool.query('DELETE FROM products WHERE id = $1', [id]);
-  res.send('User deleted.');
+  try {
+    const id = req.params.id;
+    await pool.query('DELETE FROM products WHERE id = $1', [id])
+      .then(res.send('User deleted.'));
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 };
 
 module.exports = {
@@ -102,6 +122,7 @@ module.exports = {
   deleteUserById,
   getProducts,
   createProduct,
-  updateProduct,
+  updateProductStock,
+  updateProductPrice,
   deleteProductById
 };
